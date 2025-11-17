@@ -26,7 +26,7 @@ resource "aws_ssm_parameter" "private_key" {
 
 # Create AWS key pair using the public key
 resource "aws_key_pair" "demo_keypair" {
-  key_name   = "demo-keypair"
+  key_name   = "NewKey"
   public_key = tls_private_key.demo_key.public_key_openssh
 }
 
@@ -118,7 +118,7 @@ resource "aws_security_group" "demo_sg" {
 
 # EC2 Instance
 resource "aws_instance" "demo_instance" {
-  ami                    = "ami-0ecb62995f68bb549" // Replace with a valid AMI ID for your region
+  ami                    = "ami-0cae6d6fe6048ca2c" // Replace with a valid AMI ID for your region
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.demo_subnet.id
   key_name               = aws_key_pair.demo_keypair.key_name
