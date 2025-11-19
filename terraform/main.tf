@@ -14,7 +14,7 @@ resource "tls_private_key" "demo_key" {
 
 # Store private key in SSM Parameter Store
 resource "aws_ssm_parameter" "private_key" {
-  name        = "/ssh/NewKey/private"
+  name        = "/ssh/NewKey1/private"
   description = "Private SSH key for EC2 demo"
   type        = "SecureString"
   value       = tls_private_key.demo_key.private_key_pem
@@ -26,7 +26,7 @@ resource "aws_ssm_parameter" "private_key" {
 
 # Create AWS key pair using the public key
 resource "aws_key_pair" "demo_keypair" {
-  key_name   = "NewKey"
+  key_name   = "NewKey1"
   public_key = tls_private_key.demo_key.public_key_openssh
 }
 
