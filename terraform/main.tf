@@ -4,7 +4,7 @@ resource "aws_key_pair" "demo_key" {
 }
 
 resource "aws_vpc" "demo_vpc" {
-    cidr_block           = "10.0.0.0/12"
+    cidr_block           = "10.0.0.0/24"
     enable_dns_hostnames = true
     enable_dns_support   = true
 
@@ -24,8 +24,6 @@ resource "aws_subnet" "public_ip" {
       Name = "public_ip"
     }
 }
-
-
 
 # IGW
 resource "aws_internet_gateway" "demo_igw" {
@@ -83,18 +81,26 @@ resource "aws_vpc_security_group_ingress_rule" "demo_sg_ipv4_ssh" {
     to_port = 22
 }
 
-resource "aws_vpc_security_group_egress_rule" "name" {
+resource "aws_vpc_security_group_egress_rule" "demo_eg_sg" {
     security_group_id = aws_security_group.tester_sg.id
     cidr_ipv4 = "0.0.0.0/0"
     ip_protocol = "-1"
 }
 
 resource "aws_instance" "server_1" {
-  ami           = "asdsfvb"
-  instance_type = "t2.small"
-  subnet_id = aws_subnet_id.public_id.id
 
-  tags = {
-    Name = "App-Server1"
-  }
+    for_each = {
+        for inst in local.instances : inst.name => inst.env
+    }
+ 
+    ami                     = data.aws_ami.ubuntu.id 
+    instance_type           = "t2.micro"
+    key_name                = aws_key_pair.demo_key.id
+    subnet_id               = aws_subnet.public_ip.id
+    vpc_security_group_ids  = [aws_security_group.tester_sg.id]
+
+    tags = {
+        Name          = each.key
+        Environment  = each.value
+    }
 }
