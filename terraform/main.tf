@@ -1,10 +1,10 @@
 resource "aws_key_pair" "demo_key" {
     key_name = "tester_key"
-    public_key = file("~/ssh/appKey.pub")  
+    public_key = file("~/.ssh/appKey.pub")  
 }
 
 resource "aws_vpc" "demo_vpc" {
-    cidr_block           = "10.0.0.0/24"
+    cidr_block           = "10.0.0.0/16"
     enable_dns_hostnames = true
     enable_dns_support   = true
 
@@ -16,7 +16,7 @@ resource "aws_vpc" "demo_vpc" {
 # creating subnet
 resource "aws_subnet" "public_ip" {
     vpc_id          = aws_vpc.demo_vpc.id
-    cidr_block      = "10.0.1.0/16"
+    cidr_block      = "10.0.1.0/24"
     availability_zone = "us-east-1a"
     map_public_ip_on_launch = true
 
