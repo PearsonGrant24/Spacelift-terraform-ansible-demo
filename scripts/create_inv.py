@@ -5,7 +5,7 @@ open_terraform_output = "terraform/output.json"
 inventory_path = "ansible/inventory/hosts.ini"
 
 # 
-with opem(open_terraform_output, "r") as f:
+with open(open_terraform_output, "r") as f:
     data = json.load(f)
 
 # 

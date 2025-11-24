@@ -8,7 +8,7 @@
 
 - name: Copy index.html
   become: yes
-  ansible.builtin.Copy:
+  ansible.builtin.copy:
     src: index-{{ env }}.html
     dest: /var/www/html/index.html
     mode: '0644'
