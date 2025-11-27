@@ -10,3 +10,10 @@ resource "aws_route_table" "demo_route_tb" {
     Name = "public-demo-rt"
   }
 }
+
+#route assici
+resource "aws_route_table_association" "demo-rta" {
+  subnet_id = aws_subnet.public_ip.id 
+  route_table_id = aws_route_table.demo_route_tb.id
+}
+
