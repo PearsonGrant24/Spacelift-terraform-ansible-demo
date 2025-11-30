@@ -1,18 +1,74 @@
-# 🚀 Terraform + Ansible on AWS (via Spacelift)
+# 🚀 Terraform + Ansible on AWS 
 
-This demo shows how to provision AWS infrastructure with Terraform and configure it using Ansible, automated through Spacelift.
+🚀 New DevOps Project Drop: Fully Automated AWS Infrastructure with Terraform, Ansible
+ 
+After some time focusing on learning and growth, I’m excited to share a new DevOps project I’ve been building — one that brings together Infrastructure as Code, automated configuration management, and best-practice deployment workflows.
+This project simulates a real production environment and includes:
 
-## 🎥 Video Walkthrough
+🔧 Infrastructure Automation (Terraform)
+• VPC, subnets, EC2 provisioning
+• Secure networking and reusable modules
+• Automated, repeatable environment creation
 
-[![Terraform + Ansible on AWS via Spacelift](https://img.youtube.com/vi/geSwD6M1pQs/0.jpg)](https://youtu.be/geSwD6M1pQs)
+🛠️ Configuration Management (Ansible)
+• Server bootstrapping
+• Automated package installation
+• App deployment using structured playbooks
+• Handling real-world issues like inventory parsing, SSH access, Python installation, etc.
 
-Watch the demo on YouTube: [Terraform + Ansible on AWS via Spacelift](https://youtu.be/geSwD6M1pQs)
+☁️ AWS Cloud Architecture
+• Compute
+• Networking
+• Security
+• Automation from scratch
 
-## 📚 References
 
-* 🌐 Terraform Docs: [https://developer.hashicorp.com/terraform/docs](https://developer.hashicorp.com/terraform/docs)
-* 🧰 Ansible Docs: [https://docs.ansible.com/](https://docs.ansible.com/)
-* ☁️ Spacelift: [https://spacelift.io/](https://spacelift.io/)
 
----
+PROJECT_ROOT/
+│
+├─ terraform/
+│  ├── main.tf                # root calling modules (vpc, security, keypair, ec2)
+│  ├── providers.tf
+│  ├── variables.tf
+│  ├── outputs.tf             # includes module.ec2.public_ips_by_env output
+│  └── modules/
+│      ├── vpc/
+│      │   ├── main.tf
+│      │   ├── variables.tf
+│      │   └── outputs.tf
+│      ├── security/
+│      │   ├── main.tf
+│      │   ├── variables.tf
+│      │   └── outputs.tf
+│      ├── keypair/
+│      │   ├── main.tf
+│      │   ├── variables.tf
+│      │   └── outputs.tf
+│      └── ec2/
+│          ├── main.tf        #  locals loop (dev/stage/prod)
+│          ├── variables.tf
+│          └── outputs.tf     
+│   
+│
+└── ansible/
+│   ├── ansible.cfg            # inventory = ./inventory/hosts.ini, remote_user = ubuntu
+│   ├── playbook.yml           
+│   ├── inventory/
+│   │   └── hosts.ini          # generated inventory (dev/stage/prod groups)
+│   └── roles/
+│       └── webserver/
+│           ├── tasks/
+│           │   └── main.yml   # (1) install nginx, (2) copy index-{{ env }}.html, (3) restart nginx inline
+│           └── files/
+│              ├── index-dev.html
+│              ├── index-stage.html
+│              └── index-prod.html
+├── scripts/
+│   └── create_inv.py  
+│
+└── README.md
+
+
+
+
 
