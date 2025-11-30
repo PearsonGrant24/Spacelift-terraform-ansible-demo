@@ -1,9 +1,11 @@
-output "instance_public_ips" {
-    value = {
-        for env in distinct(values(aws_instance.server_1)[*].tags.Environment) :
-        env => [for k, inst in aws_instance.server_1 : inst.public_ip if inst.tags.Environment == env]
-    }
+
+output "public_ips_by_env" {
+  value = {
+    for env in distinct([for i in aws_instance.servers : i.tags["Environment"]]) :
+    env => [
+      for inst in aws_instance.servers :
+      inst.public_ip
+      if inst.tags["Environment"] == env
+    ]
+  }
 }
-
-
-

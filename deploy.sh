@@ -11,7 +11,7 @@ terraform output -json instance_public_ips > output.json
 
 
 
-echo -e "\n📄 Generating Ansible Inventory..."
+echo -e "\n Generating Ansible Inventory..."
 cd ..
 python3 scripts/create_inv.py
 
